@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './assets/styles/reset.css'
+import 'styles/reset.css'
 // 移动端1px边框解决方案
-import './assets/styles/border.css'
+import 'styles/border.css'
+import 'styles/iconfont.css'
 // 解决300毫秒点击延迟
 import fastClick from 'fastclick'
 
