@@ -5,7 +5,7 @@
         <div class="title border-topbottom">当前城市</div>
         <div class="button-list">
           <div class="button-wrapper">
-            <div class="button">北京</div>
+            <div class="button">{{this.currentCity}}</div>
           </div>
         </div>
       </div>
@@ -16,6 +16,7 @@
             class="button-wrapper"
             v-for="item of hot"
             :key="item.id"
+            @click="handleCityClick(item.name)"
           >
             <div class="button">{{item.name}}</div>
           </div>
@@ -33,6 +34,7 @@
             class="item border-bottom"
             v-for="innerItem of item"
             :key="innerItem.id"
+            @click="handleCityClick(innerItem.name)"
           >
             {{innerItem.name}}
           </div>
@@ -44,6 +46,7 @@
 
 <script>
 import Bscroll from 'better-scroll'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'CityList',
   props: {
@@ -52,21 +55,34 @@ export default {
     // 子组件接收letter
     letter: String
   },
-  mounted () {
-    this.scroll = new Bscroll(this.$refs.wrapper)
+  computed: {
+    ...mapState({
+      currentCity: 'city'
+    })
+  },
+  methods: {
+    handleCityClick (city) {
+      // this.$store.dispatch('changeCity', city)
+      // this.$store.commit('changeCity', city)
+      this.changeCity(city)
+      this.$router.push('/')
+    },
+    ...mapMutations(['changeCity'])
   },
   // 借助侦听器监听letter
   watch: {
     letter () {
-      // 获取area区域
-      const element = this.$refs[this.letter][0]
-      // 由于element打印出来的是一个数组,所以this.$refs[this.letter]改成this.$refs[this.letter][0]
-      // console.log(element)
       // better-scroll 提供的接口
       if (this.letter) {
+        // 获取area区域
+        const element = this.$refs[this.letter][0]
+        // 由于element打印出来的是一个数组,所以this.$refs[this.letter]改成this.$refs[this.letter][0]
         this.scroll.scrollToElement(element)
       }
     }
+  },
+  mounted () {
+    this.scroll = new Bscroll(this.$refs.wrapper)
   }
 }
 </script>
