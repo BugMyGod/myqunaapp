@@ -2,8 +2,15 @@
   <div>
     <city-header></city-header>
     <city-search></city-search>
-    <city-list :cities="cities" :hot="hotCities"></city-list>
-    <city-alphabet :cities="cities"></city-alphabet>
+    <city-list
+      :cities="cities"
+      :hot="hotCities"
+      :letter="letter"
+    ></city-list>
+    <city-alphabet
+      :cities="cities"
+      @change="handleLetterChange"
+    ></city-alphabet>
   </div>
 </template>
 
@@ -24,7 +31,8 @@ export default {
   data () {
     return {
       cities: {},
-      hotCities: []
+      hotCities: [],
+      letter: ''
     }
   },
   methods: {
@@ -39,6 +47,11 @@ export default {
         this.cities = data.cities
         this.hotCities = data.hotCities
       }
+    },
+    handleLetterChange (letter) {
+      // 父组件以属性的方式传值给子组件,
+      // 当接收到外部传来的letter的时候，让this.letter=letter,然后传递给city-list
+      this.letter = letter
     }
   },
   mounted () {
